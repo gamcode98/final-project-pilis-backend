@@ -1,15 +1,15 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Role } from './role.entity'
 
 @Entity({ name: 'users' })
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
     id: number
 
   @Column('text', { unique: true })
     email: string
 
-  @Column('text', { select: false })
+  @Column('text')
     password: string
 
   @CreateDateColumn({

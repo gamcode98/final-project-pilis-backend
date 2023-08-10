@@ -1,7 +1,6 @@
 import passport from 'passport'
 import { JwtStrategy } from './strategies/jwt.strategy'
+import { LocalStrategy } from './strategies/local.strategy'
 
-// const LocalStrategy = require("./strategies/local.strategy");
-
-// passport.use(LocalStrategy)
+passport.use(LocalStrategy)
 passport.use(JwtStrategy)
