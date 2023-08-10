@@ -4,7 +4,8 @@ import { ROLES } from '../enums'
 export const createRole = async (roleName: ROLES) => {
   const role = new Role()
   role.name = roleName
-  await role.save()
+  const result = await role.save()
+  return result
 }
 
 export const findOneRole = async (roleName: ROLES) => {
