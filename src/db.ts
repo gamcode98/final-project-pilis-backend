@@ -1,14 +1,14 @@
 import { DataSource } from 'typeorm'
-import { config } from './config'
-import { Role, User } from './entities'
+import { settings } from './config'
+import { Image, Movie, Role, User } from './entities'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: config.dbHost,
+  host: settings.dbHost,
   port: 5432,
-  username: config.dbUsername,
-  password: config.dbPassword,
-  database: config.dbName,
+  username: settings.dbUsername,
+  password: settings.dbPassword,
+  database: settings.dbName,
   synchronize: true,
-  entities: [User, Role]
+  entities: [User, Role, Movie, Image]
 })
