@@ -13,6 +13,6 @@ export const createUser = async ({ email, password, role }: UserDto) => {
 }
 
 export const findOneUserByEmail = async (email: UserDto['email']) => {
-  const result = await User.findOneBy({ email })
+  const result = await User.findOne({ where: { email }, relations: ['rol'] })
   return result
 }

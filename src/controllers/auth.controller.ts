@@ -1,11 +1,10 @@
-import { NextFunction, Request, Response } from 'express'
 import boom from '@hapi/boom'
-import { asyncHandler } from '../middlewares'
+import { NextFunction, Request, Response } from 'express'
 import { createUser, findOneUserByEmail, findOneRole } from '../services'
-import { encryptPassword } from '../utils/bcrypt.handler'
+import { asyncHandler } from '../middlewares'
+import { RequestExt } from '../config'
+import { encryptPassword, generateToken } from '../utils'
 import { ROLES } from '../enums'
-import { RequestExt } from '../config/request-ext'
-import { generateToken } from '../utils/jwt.handler'
 
 export const signup = asyncHandler(async ({ body }: Request, res: Response, next: NextFunction) => {
   const { email, password } = body
@@ -29,7 +28,7 @@ export const signup = asyncHandler(async ({ body }: Request, res: Response, next
 })
 
 export const login = asyncHandler(async ({ user }: RequestExt, res: Response, next: NextFunction) => {
-  const payload = { id: user.id }
+  const payload = { sub: user.id, rol: user.role.name }
   const token = generateToken(payload)
 
   res.status(200).send({

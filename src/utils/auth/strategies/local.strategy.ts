@@ -21,6 +21,7 @@ export const LocalStrategy = new Strategy(
         const userWithoutPassword = {
           id: user.id,
           email: user.email,
+          role: user.rol,
           createadAt: user.createdAt,
           updatedAt: user.updatedAt
         }

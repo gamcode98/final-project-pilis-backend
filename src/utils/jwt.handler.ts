@@ -1,8 +1,8 @@
 import { Secret, sign, verify } from 'jsonwebtoken'
-import { config } from '../config'
+import { settings } from '../config'
 
 export const generateToken = (payload: {}, time: string = '2h') => {
-  const jwt = sign(payload, config.jwtSecret as Secret, {
+  const jwt = sign(payload, settings.jwtSecret as Secret, {
     expiresIn: time
   })
 
@@ -10,6 +10,6 @@ export const generateToken = (payload: {}, time: string = '2h') => {
 }
 
 export const verifyToken = (jwt: string) => {
-  const isOk = verify(jwt, config.jwtSecret as Secret)
+  const isOk = verify(jwt, settings.jwtSecret as Secret)
   return isOk
 }

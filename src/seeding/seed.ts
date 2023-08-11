@@ -1,8 +1,8 @@
-import { config } from '../config'
+import { settings } from '../config'
 import { AppDataSource } from '../db'
 import { ROLES } from '../enums'
 import { createRole, createUser } from '../services'
-import { encryptPassword } from '../utils/bcrypt.handler'
+import { encryptPassword } from '../utils'
 
 export const seed = async () => {
   console.log('RUNNING SEED\n')
@@ -12,8 +12,8 @@ export const seed = async () => {
   const adminRole = await createRole(ROLES.ADMIN)
 
   const admin = {
-    email: config.adminEmail ?? 'admin@gmail.com',
-    password: config.adminPassword ?? '123okAsd'
+    email: settings.adminEmail ?? 'admin@gmail.com',
+    password: settings.adminPassword ?? '123okAsd'
   }
 
   const passwordHash = await encryptPassword(admin.password)
