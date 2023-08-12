@@ -1,5 +1,7 @@
+import { LessThanOrEqual, MoreThan } from 'typeorm'
 import { MovieDto } from '../dtos'
 import { Movie } from '../entities'
+import { ROLES } from '../enums'
 
 const create = async (data: MovieDto) => {
   const { title, gender, description, director, trailerUrl, image } = data
@@ -18,14 +20,17 @@ const create = async (data: MovieDto) => {
   return result
 }
 
-const findAll = async () => {
-  const result = await Movie.find({ relations: ['image'] })
+const findAll = async (rol: string) => {
+  const result = await Movie.find({
+    relations: ['image', 'cinemaShows', 'cinemaShows.room'],
+    where: rol === ROLES.ADMIN ? { cinemaShows: LessThanOrEqual(0) } : { cinemaShows: MoreThan(0) }
+  })
 
   return result
 }
 
 const findOne = async (id: MovieDto['id']) => {
-  const result = await Movie.findOne({ where: { id }, relations: ['image'] })
+  const result = await Movie.findOne({ where: { id }, relations: ['image', 'cinemaShows', 'cinemaShows.room'] })
 
   return result
 }

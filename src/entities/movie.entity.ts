@@ -1,5 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { Image } from './image.entity'
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { CinemaShow, Image, Room } from '.'
 
 @Entity({ name: 'movies' })
 export class Movie extends BaseEntity {
@@ -9,7 +9,7 @@ export class Movie extends BaseEntity {
   @Column('text', { unique: true })
     title: string
 
-  @Column('text', { unique: true })
+  @Column('text')
     gender: string
 
   @Column('text')
@@ -24,6 +24,11 @@ export class Movie extends BaseEntity {
   @OneToOne(() => Image)
   @JoinColumn({ name: 'image_id' })
     image: Image
+
+  @OneToMany(() => CinemaShow, cinemaShow => cinemaShow.movie)
+    cinemaShows: CinemaShow[]
+
+  rooms: Room[]
 
   @CreateDateColumn({
     name: 'created_at',

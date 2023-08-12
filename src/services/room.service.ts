@@ -12,12 +12,12 @@ const create = async ({ name, capacityAvailable }: RoomDto) => {
 }
 
 const findAll = async () => {
-  const result = await Room.find()
+  const result = await Room.find({ relations: ['cinemaShows'] })
   return result
 }
 
 const findOne = async (id: RoomDto['id']) => {
-  const result = await Room.findOne({ where: { id } })
+  const result = await Room.findOne({ where: { id }, relations: ['cinemaShows'] })
 
   return result
 }

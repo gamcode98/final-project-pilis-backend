@@ -1,3 +1,4 @@
+export * from './cinemaShow.service'
 export * from './image.service'
 export * from './movie.service'
 export * from './roles.service'
