@@ -1,4 +1,5 @@
 export * from './image.service'
 export * from './movie.service'
 export * from './roles.service'
+export * from './room.service'
 export * from './user.service'

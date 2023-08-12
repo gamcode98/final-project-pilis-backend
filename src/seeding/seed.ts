@@ -1,10 +1,19 @@
 import { settings } from '../config'
 import { AppDataSource } from '../db'
+import { RoomDto } from '../dtos'
 import { ROLES } from '../enums'
-import { createRole, createUser } from '../services'
+import { createRole, createUser, roomService } from '../services'
 import { encryptPassword } from '../utils'
 
-export const seed = async () => {
+const initialRooms: RoomDto[] = [
+  { name: 'Estelar', capacityAvailable: 40 },
+  { name: 'Solaz', capacityAvailable: 10 },
+  { name: 'Venus', capacityAvailable: 20 },
+  { name: 'Mercurio', capacityAvailable: 30 },
+  { name: 'Luminar', capacityAvailable: 24 }
+]
+
+const seed = async () => {
   console.log('RUNNING SEED\n')
   await AppDataSource.initialize()
 
@@ -19,6 +28,10 @@ export const seed = async () => {
   const passwordHash = await encryptPassword(admin.password)
 
   await createUser({ email: admin.email, password: passwordHash, role: adminRole })
+
+  for await (const room of initialRooms) {
+    await roomService.create(room)
+  }
 
   await AppDataSource.destroy()
   console.log('SEED EXECUTED\n')
