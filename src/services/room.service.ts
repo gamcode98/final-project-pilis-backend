@@ -11,6 +11,19 @@ const create = async ({ name, capacityAvailable }: RoomDto) => {
   return result
 }
 
+const findAll = async () => {
+  const result = await Room.find()
+  return result
+}
+
+const findOne = async (id: RoomDto['id']) => {
+  const result = await Room.findOne({ where: { id } })
+
+  return result
+}
+
 export const roomService = {
-  create
+  create,
+  findAll,
+  findOne
 }
