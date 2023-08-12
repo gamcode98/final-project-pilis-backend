@@ -1,5 +1,5 @@
 import { Router, Application } from 'express'
-import { authRouter, imageRouter, movieRouter, roomRouter } from '.'
+import { authRouter, cinemaShowRouter, imageRouter, movieRouter, roomRouter } from '.'
 
 export const routerApi = (app: Application) => {
   const router = Router()
@@ -10,4 +10,5 @@ export const routerApi = (app: Application) => {
   router.use('/images', imageRouter)
   router.use('/movies', movieRouter)
   router.use('/rooms', roomRouter)
+  router.use('/cinema-shows', cinemaShowRouter)
 }

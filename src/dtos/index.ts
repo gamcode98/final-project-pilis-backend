@@ -1,4 +1,5 @@
 export * from './base.dto'
+export * from './cinemaShow.dto'
 export * from './image.dtos'
 export * from './movie.dto'
 export * from './room.dto'

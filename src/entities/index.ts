@@ -1,3 +1,4 @@
+export * from './cinemaShow.entity'
 export * from './image.entity'
 export * from './movie.entity'
 export * from './role.entity'

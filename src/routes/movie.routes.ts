@@ -14,9 +14,13 @@ movieRouter.post(
   validatorHandler(createMovieSchema, 'body'),
   movieController.create
 )
-
 movieRouter.get(
   '/',
+  movieController.findAll
+)
+
+movieRouter.get(
+  '/without-cinema-shows',
   passport.authenticate('jwt', { session: false }),
   checkRoles(ROLES.ADMIN),
   movieController.findAll
