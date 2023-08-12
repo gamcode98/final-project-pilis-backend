@@ -1,5 +1,9 @@
 # Cinema system
 
+## Diagrama de entidad relación
+
+![diagrama de entidad relación](./der-cinema-system.png)
+
 ## Instrucciones
 
 - Instalar las dependencias
