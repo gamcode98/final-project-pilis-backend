@@ -1,13 +1,13 @@
 import boom from '@hapi/boom'
 import { NextFunction, Request, Response } from 'express'
 import { asyncHandler } from '../middlewares'
-import { cinemaShowService } from '../services'
+import { cinemaShowService, movieService, roomService } from '../services'
 import { MINUTES } from '../enums'
 
 const create = asyncHandler(async ({ body }: Request, res: Response, next: NextFunction) => {
-  const { roomId, date, hour, minutes } = body
+  const { roomId, movieId, date, hour, minutes } = body
 
-  const cinemaShow = await cinemaShowService.findOne({ roomId })
+  const cinemaShow = await cinemaShowService.findOne({ room: { id: +roomId } })
 
   if (cinemaShow) {
     if (cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes) {
@@ -21,7 +21,11 @@ const create = asyncHandler(async ({ body }: Request, res: Response, next: NextF
     }
   }
 
-  const response = await cinemaShowService.create(body)
+  const room = await roomService.findOne(roomId)
+
+  const movie = await movieService.findOne(movieId)
+
+  const response = await cinemaShowService.create({ ...body, room, movie })
 
   res.status(201).send({
     statusCode: res.statusCode,

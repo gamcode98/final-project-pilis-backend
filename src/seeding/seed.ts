@@ -6,11 +6,11 @@ import { createRole, createUser, roomService } from '../services'
 import { encryptPassword } from '../utils'
 
 const initialRooms: RoomDto[] = [
-  { name: 'Estelar', capacityAvailable: 40 },
-  { name: 'Solaz', capacityAvailable: 10 },
-  { name: 'Venus', capacityAvailable: 20 },
-  { name: 'Mercurio', capacityAvailable: 30 },
-  { name: 'Luminar', capacityAvailable: 24 }
+  { name: 'Estelar', capacity: 40 },
+  { name: 'Solaz', capacity: 10 },
+  { name: 'Venus', capacity: 20 },
+  { name: 'Mercurio', capacity: 30 },
+  { name: 'Luminar', capacity: 24 }
 ]
 
 const seed = async () => {
@@ -22,7 +22,7 @@ const seed = async () => {
 
   const admin = {
     email: settings.adminEmail ?? 'admin@gmail.com',
-    password: settings.adminPassword ?? '123okAsd'
+    password: settings.adminPassword ?? '123okAsd@'
   }
 
   const passwordHash = await encryptPassword(admin.password)

@@ -16,5 +16,6 @@ export const settings = {
   adminPassword: process.env.ADMIN_PASSWORD,
   cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+  mercadopagoApiKey: process.env.MERCADOPAGO_API_KEY
 }
