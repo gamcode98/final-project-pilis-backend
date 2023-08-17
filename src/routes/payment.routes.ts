@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import passport from 'passport'
 import { paymentController } from '../controllers'
-import { ROLES } from '../enums'
 import { checkRoles, validatorHandler } from '../middlewares'
 import { createPaymentSchema } from '../schemas'
+import { ROLES } from '../enums'
 
 export const paymentRouter = Router()
 
@@ -24,8 +24,6 @@ paymentRouter.post(
 )
 
 paymentRouter.post('/webhook', paymentController.receiveWebhook)
-
-paymentRouter.get('/', paymentController.findAll)
 
 paymentRouter.get('/success', (req, res) => res.send('Success'))
 

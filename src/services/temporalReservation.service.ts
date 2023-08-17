@@ -18,8 +18,8 @@ const findOne = async (id: TemporalReservationDto['id']) => {
   return result
 }
 
-const update = async (id: TemporalReservationDto['id'], data: UpdateTemporalReservationDto) => {
-  const result = await TemporalReservation.update({ id }, data)
+const update = async (id: TemporalReservationDto['id'], updateTemporalReservationDto: UpdateTemporalReservationDto) => {
+  const result = await TemporalReservation.update({ id }, updateTemporalReservationDto)
   return result
 }
 

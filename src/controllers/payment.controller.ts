@@ -2,20 +2,19 @@
 import boom from '@hapi/boom'
 import mercadopago from 'mercadopago'
 import crypto from 'crypto'
+import cron from 'node-cron'
 import { NextFunction, Request, Response } from 'express'
-import { cinemaShowService, findOneUserById, paymentService, temporalReservationService, ticketService } from '../services'
 import { asyncHandler } from '../middlewares'
-import { Payload, settings } from '../config'
 import { generateQR, getExpirationDate } from '../utils'
-import { TEMPORAL_RESERVATION_STATUS } from '../enums'
-
-// interface Item {
-//   cinemaShowId: string
-//   title: string
-//   unitPrice: number
-//   quantity: number
-//   userId: number
-// }
+import { EXPIRATION_MINUTES, TEMPORAL_RESERVATION_STATUS } from '../enums'
+import { Payload, settings } from '../config'
+import {
+  cinemaShowService,
+  findOneUserById,
+  paymentService,
+  temporalReservationService,
+  ticketService
+} from '../services'
 
 interface Payment {
   'data.id': string
@@ -27,7 +26,7 @@ const createOrder = asyncHandler(async ({ body, user }: Request, res: Response, 
   const { items } = body
   const userPayload = user as Payload
 
-  const elements = []
+  const elements: any = []
 
   for await (const item of items) {
     const cinemaShow = await cinemaShowService.findOne({ id: item.cinemaShowId })
@@ -60,6 +59,8 @@ const createOrder = asyncHandler(async ({ body, user }: Request, res: Response, 
     access_token: settings.mercadopagoApiKey
   })
 
+  const { expirationDate, minute, hour, dayOfMonth, month, dayOfWeek } = getExpirationDate(EXPIRATION_MINUTES.ONE)
+
   const result = await mercadopago.preferences.create({
     items: elements,
     notification_url: `${settings.backendUrl}/api/v1/payments/webhook`,
@@ -68,7 +69,23 @@ const createOrder = asyncHandler(async ({ body, user }: Request, res: Response, 
       pending: 'http://localhost:3000/api/v1/payments/pending',
       failure: 'http://localhost:3000/api/v1/payments/failure'
     },
-    date_of_expiration: getExpirationDate(2)
+    date_of_expiration: expirationDate
+  })
+
+  cron.schedule(`${minute} ${hour} ${dayOfMonth} ${month} ${dayOfWeek}`, async () => {
+    for await (const element of elements) {
+      const temporalReservation = await temporalReservationService.findOne(Number(element.category_id))
+
+      if (!temporalReservation) throw boom.notFound()
+
+      if (temporalReservation.status === TEMPORAL_RESERVATION_STATUS.PENDING) {
+        const currentCapacityAvailable = temporalReservation.cinemaShow.capacityAvailable + Number(element.quantity)
+
+        await cinemaShowService.update(temporalReservation.cinemaShow.id, { capacityAvailable: currentCapacityAvailable })
+
+        await temporalReservationService.update(temporalReservation.id, { status: TEMPORAL_RESERVATION_STATUS.CANCELED })
+      }
+    }
   })
 
   res.status(201).send({
@@ -111,7 +128,10 @@ const receiveWebhook = asyncHandler(async (req: Request, res: Response, next: Ne
 
       if (!temporalReservation) throw boom.notFound()
 
-      const ticketFound = await ticketService.findOne(temporalReservation.cinemaShow.id, user.id)
+      const ticketFound = await ticketService.findOne({
+        cinemaShow: { id: temporalReservation.cinemaShow.id },
+        user: { id: user.id }
+      })
 
       const code = crypto.randomUUID()
       const qrCode = await generateQR(code)
@@ -120,8 +140,14 @@ const receiveWebhook = asyncHandler(async (req: Request, res: Response, next: Ne
         await ticketService.update(ticketFound.id, {
           quantity: ticketFound.quantity + Number(item.quantityOfTickets)
         })
-        const ticket = await ticketService.findOne(temporalReservation.cinemaShow.id, user.id)
+
+        const ticket = await ticketService.findOne({
+          cinemaShow: { id: temporalReservation.cinemaShow.id },
+          user: { id: user.id }
+        })
+
         if (!ticket) throw boom.notFound()
+
         tickets.push(ticket)
       } else {
         const ticket = await ticketService.create({
@@ -131,6 +157,7 @@ const receiveWebhook = asyncHandler(async (req: Request, res: Response, next: Ne
           cinemaShow: temporalReservation.cinemaShow,
           quantity: item.quantityOfTickets
         })
+
         tickets.push(ticket)
       }
     }
@@ -151,19 +178,14 @@ const createWithoutMercadoPago = asyncHandler(async (req: Request, res: Response
   const userPayload = req.user as Payload
   const { items } = req.body
 
-  // TODO: VER CUANDO SE QUIERE COMPRAR MAS TICKETS PARA LA MISMA "CINEMA SHOW" - HACER EL ACTUALIZAR
-  const status = 'ACCREDITED'
-
-  if (status !== 'ACCREDITED') throw boom.badRequest()
-
   const user = await findOneUserById(userPayload.sub)
 
-  if (!user) throw boom.conflict()
+  if (!user) throw boom.notFound()
 
   const transformedItems = items.map((item: any) => {
     return {
-      cinemaShowId: Number(item.cinemaShowId),
-      quantityOfTickets: Number(item.quantity)
+      cinemaShowId: item.cinemaShowId,
+      quantityOfTickets: item.quantity
     }
   })
 
@@ -174,29 +196,51 @@ const createWithoutMercadoPago = asyncHandler(async (req: Request, res: Response
 
     if (!cinemaShow) throw boom.notFound('Cinema show not found')
 
-    const currentTicketsAvailable = cinemaShow.capacityAvailable - item.quantityOfTickets
+    const currentCapacityAvailable = cinemaShow.capacityAvailable - item.quantityOfTickets
 
-    if (currentTicketsAvailable <= 0) throw boom.badRequest(`There are not enough tickets available for '${cinemaShow.movie.title}'`)
+    if (currentCapacityAvailable <= 0) {
+      throw boom.badRequest(`There are not enough tickets available for '${cinemaShow.movie.title}'`)
+    }
 
-    await cinemaShowService.update(cinemaShow.id, { capacityAvailable: currentTicketsAvailable })
-
-    adaptedItems.push({ cinemaShow, quantityOfTickets: item.quantityOfTickets })
+    adaptedItems.push({ cinemaShow, quantityOfTickets: item.quantityOfTickets, currentCapacityAvailable })
   }
 
   const tickets = []
 
   for await (const item of adaptedItems) {
-    const code = crypto.randomUUID()
-    const qrCode = await generateQR(code)
-
-    const ticket = await ticketService.create({
-      user,
-      code,
-      qrCode,
-      cinemaShow: item.cinemaShow,
-      quantity: item.quantityOfTickets
+    const ticketFound = await ticketService.findOne({
+      cinemaShow: { id: item.cinemaShow.id },
+      user: { id: user.id }
     })
-    tickets.push(ticket)
+
+    await cinemaShowService.update(item.cinemaShow.id, { capacityAvailable: item.currentCapacityAvailable })
+
+    if (ticketFound) {
+      await ticketService.update(ticketFound.id, {
+        quantity: ticketFound.quantity + Number(item.quantityOfTickets)
+      })
+
+      const ticket = await ticketService.findOne({
+        cinemaShow: { id: item.cinemaShow.id },
+        user: { id: user.id }
+      })
+
+      if (!ticket) throw boom.notFound()
+
+      tickets.push(ticket)
+    } else {
+      const code = crypto.randomUUID()
+      const qrCode = await generateQR(code)
+
+      const ticket = await ticketService.create({
+        user,
+        code,
+        qrCode,
+        cinemaShow: item.cinemaShow,
+        quantity: item.quantityOfTickets
+      })
+      tickets.push(ticket)
+    }
   }
 
   const localPayments = []
@@ -217,19 +261,8 @@ const createWithoutMercadoPago = asyncHandler(async (req: Request, res: Response
   })
 })
 
-const findAll = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  // const response = await paymentService.findAll(2)
-
-  res.status(200).send({
-    statusCode: res.statusCode,
-    message: 'Payments  retrieved successfully'
-    // response
-  })
-})
-
 export const paymentController = {
   createOrder,
   createWithoutMercadoPago,
-  receiveWebhook,
-  findAll
+  receiveWebhook
 }

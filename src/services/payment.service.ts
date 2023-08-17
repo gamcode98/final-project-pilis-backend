@@ -14,19 +14,6 @@ const create = async (data: PaymentDto) => {
   return result
 }
 
-// const findAll = async (id: number) => {
-//   const result = await Payment.find({
-//     where: { user: { id } },
-//     relations: [
-//       'ticket.cinemaShow.room',
-//       'ticket.cinemaShow.movie',
-//       'ticket.cinemaShow.movie.image'
-//     ]
-//   })
-//   return result
-// }
-
 export const paymentService = {
   create
-  // findAll
 }

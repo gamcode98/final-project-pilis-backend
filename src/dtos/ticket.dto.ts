@@ -9,4 +9,4 @@ export interface TicketDto extends BaseDto {
   user: User
 }
 
-export interface UpdateTicketDto extends Partial<TicketDto> {}
+export interface UpdateTicketDto extends Partial<TicketDto> { }

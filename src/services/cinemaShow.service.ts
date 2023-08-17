@@ -23,13 +23,11 @@ const findAll = async () => {
 
 const findOne = async (term: { id?: number } | { room: { id: number } }) => {
   const result = await CinemaShow.findOne({ where: term, relations: ['movie', 'room'] })
-
   return result
 }
 
 const update = async (id: number, updateCinemaShowDto: UpdateCinemaShowDto) => {
-  const result = await CinemaShow.update(id, { ...updateCinemaShowDto })
-
+  const result = await CinemaShow.update(id, updateCinemaShowDto)
   return result
 }
 
