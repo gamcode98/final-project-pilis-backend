@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 import { settings } from './config'
-import { CinemaShow, Image, Movie, Role, Room, User } from './entities'
+import { CinemaShow, Image, Movie, Payment, Role, Room, TemporalReservation, Ticket, User } from './entities'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -10,5 +10,15 @@ export const AppDataSource = new DataSource({
   password: settings.dbPassword,
   database: settings.dbName,
   synchronize: true,
-  entities: [User, Role, Movie, Image, Room, CinemaShow]
+  entities: [
+    User,
+    Role,
+    Movie,
+    Image,
+    Room,
+    CinemaShow,
+    Payment,
+    Ticket,
+    TemporalReservation
+  ]
 })

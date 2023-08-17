@@ -1,5 +1,5 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { CinemaShow, Image, Room } from '.'
+import { CinemaShow, Image } from '.'
 
 @Entity({ name: 'movies' })
 export class Movie extends BaseEntity {
@@ -27,8 +27,6 @@ export class Movie extends BaseEntity {
 
   @OneToMany(() => CinemaShow, cinemaShow => cinemaShow.movie)
     cinemaShows: CinemaShow[]
-
-  rooms: Room[]
 
   @CreateDateColumn({
     name: 'created_at',

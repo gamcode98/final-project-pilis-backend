@@ -16,3 +16,8 @@ export const findOneUserByEmail = async (email: UserDto['email']) => {
   const result = await User.findOne({ where: { email }, relations: ['rol'] })
   return result
 }
+
+export const findOneUserById = async (id: UserDto['id']) => {
+  const result = await User.findOne({ where: { id }, relations: ['rol'] })
+  return result
+}

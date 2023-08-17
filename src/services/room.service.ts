@@ -1,11 +1,11 @@
 import { RoomDto } from '../dtos'
 import { Room } from '../entities'
 
-const create = async ({ name, capacityAvailable }: RoomDto) => {
+const create = async ({ name, capacity }: RoomDto) => {
   const room = new Room()
 
   room.name = name
-  room.capacityAvailable = capacityAvailable
+  room.capacity = capacity
 
   const result = await room.save()
   return result

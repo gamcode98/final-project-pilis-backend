@@ -1,5 +1,5 @@
-import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { Role } from './role.entity'
+import { BaseEntity, BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Role, Ticket } from '.'
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -30,6 +30,9 @@ export class User extends BaseEntity {
   @ManyToOne(() => Role, (rol) => rol.users)
   @JoinColumn({ name: 'role_id' })
     rol: Role
+
+  @OneToMany(() => Ticket, ticket => ticket.user)
+    tickets: Ticket[]
 
   @BeforeInsert()
   checkFieldsBeforeInsert () {

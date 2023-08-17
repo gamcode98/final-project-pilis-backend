@@ -14,6 +14,7 @@ movieRouter.post(
   validatorHandler(createMovieSchema, 'body'),
   movieController.create
 )
+
 movieRouter.get(
   '/',
   movieController.findAll
