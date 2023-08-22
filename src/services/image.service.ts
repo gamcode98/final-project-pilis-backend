@@ -1,4 +1,4 @@
-import { ImageDto } from '../dtos'
+import { ImageDto, UpdateImageDto } from '../dtos'
 import { Image } from '../entities'
 
 const create = async ({ url }: ImageDto) => {
@@ -16,7 +16,21 @@ const findOne = async (id: ImageDto['id']) => {
   return result
 }
 
+const findAll = async () => {
+  const result = await Image.find()
+
+  return result
+}
+
+const update = async (id: number, updateImageDto: UpdateImageDto) => {
+  const result = await Image.update({ id }, updateImageDto)
+
+  return result
+}
+
 export const imageService = {
   create,
-  findOne
+  findOne,
+  findAll,
+  update
 }

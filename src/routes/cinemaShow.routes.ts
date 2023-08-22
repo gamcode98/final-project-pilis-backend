@@ -29,3 +29,20 @@ cinemaShowRouter.get(
   validatorHandler(getCinemaShowSchema, 'params'),
   cinemaController.findOne
 )
+
+cinemaShowRouter.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(ROLES.ADMIN),
+  validatorHandler(getCinemaShowSchema, 'params'),
+  cinemaController.update
+)
+
+cinemaShowRouter.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(ROLES.ADMIN),
+  validatorHandler(getCinemaShowSchema, 'params'),
+  cinemaController.remove
+
+)
