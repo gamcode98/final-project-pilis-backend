@@ -10,3 +10,5 @@ export interface MovieDto extends BaseDto {
   trailerUrl: string
   image: Image
 }
+
+export interface UpdateMovieDto extends Partial<MovieDto> { }

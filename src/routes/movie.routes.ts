@@ -34,3 +34,19 @@ movieRouter.get(
   validatorHandler(getMovieSchema, 'params'),
   movieController.findOne
 )
+
+movieRouter.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(ROLES.ADMIN),
+  validatorHandler(getMovieSchema, 'params'),
+  movieController.update
+)
+
+movieRouter.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(ROLES.ADMIN),
+  validatorHandler(getMovieSchema, 'params'),
+  movieController.remove
+)

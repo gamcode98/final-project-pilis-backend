@@ -53,8 +53,40 @@ const findOne = asyncHandler(async ({ params }: Request, res: Response, next: Ne
   })
 })
 
+const update = asyncHandler(async ({ params, body }: Request, res: Response, next: NextFunction) => {
+  const { id } = params
+
+  const { title, gender, director, description, trailerUrl, imageId } = body
+
+  const image = await imageService.findOne(imageId)
+
+  if (!image) throw boom.notFound('Image not found')
+
+  const response = await movieService.update(+id, { title, gender, director, description, trailerUrl, image })
+
+  if (response.affected === 0) throw boom.badData('update failed')
+
+  res.status(200).send({
+    statusCode: res.statusCode,
+    message: 'Movie updated successfully'
+  })
+})
+
+const remove = asyncHandler(async ({ params }: Request, res: Response, next: NextFunction) => {
+  const { id } = params
+  const response = await movieService.remove(+id)
+
+  res.status(200).send({
+    statusCode: res.statusCode,
+    message: 'Movie deleted successfully',
+    response
+  })
+})
+
 export const movieController = {
   create,
   findAll,
-  findOne
+  findOne,
+  update,
+  remove
 }
