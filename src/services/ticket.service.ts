@@ -56,7 +56,7 @@ const findOne = async (term: { cinemaShow: { id: number }, user: { id: number } 
 const findAll = async (userId: number) => {
   const result = await Ticket.find({
     where: { user: { id: userId }, isWorking: true },
-    relations: ['cinemaShow.room', 'cinemaShow.movie']
+    relations: ['cinemaShow.room', 'cinemaShow.movie', 'cinemaShow.movie.image']
   })
   return result
 }
