@@ -7,7 +7,7 @@ import { encryptPassword, generateToken } from '../utils'
 import { ROLES } from '../enums'
 
 export const signup = asyncHandler(async ({ body }: Request, res: Response, next: NextFunction) => {
-  const { email, password } = body
+  const { username, email, password } = body
 
   const hasAccount = await findOneUserByEmail(email)
 
@@ -19,7 +19,7 @@ export const signup = asyncHandler(async ({ body }: Request, res: Response, next
 
   if (!role) throw boom.notFound('Role not found')
 
-  await createUser({ email, password: passwordHash, role })
+  await createUser({ username, email, password: passwordHash, role })
 
   res.status(201).send({
     statusCode: res.statusCode,

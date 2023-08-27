@@ -12,6 +12,7 @@ export const settings = {
   pathStorage: process.env.PATH_STORAGE,
   smtpEmail: process.env.SMTP_EMAIL,
   smtpPassword: process.env.SMTP_PASSWORD,
+  adminUsername: process.env.ADMIN_USERNAME,
   adminEmail: process.env.ADMIN_EMAIL,
   adminPassword: process.env.ADMIN_PASSWORD,
   cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,

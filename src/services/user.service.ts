@@ -1,9 +1,9 @@
 import { UserDto } from '../dtos'
 import { User } from '../entities'
 
-export const createUser = async ({ email, password, role }: UserDto) => {
+export const createUser = async ({ username, email, password, role }: UserDto) => {
   const user = new User()
-
+  user.username = username
   user.email = email
   user.password = password
   user.rol = role
