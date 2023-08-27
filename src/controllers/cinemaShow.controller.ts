@@ -16,14 +16,25 @@ const create = asyncHandler(async ({ body }: Request, res: Response, next: NextF
 
     const timeDifferenceMinutes = (hour - cinemaShow.hour) * MINUTES.ONE_HOUR + (minutes - cinemaShow.minutes)
 
-    if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
-      throw boom.conflict('The difference between functions must be at least 3 hours.')
+    if (timeDifferenceMinutes > 0) {
+      if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
+    } else {
+      const absoluteValueForTimeDifferenceMinutes = timeDifferenceMinutes * -1
+      if (absoluteValueForTimeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
     }
   }
 
   const room = await roomService.findOne(roomId)
 
+  if (!room) throw boom.notFound('Room not found')
+
   const movie = await movieService.findOne(movieId)
+
+  if (!movie) throw boom.notFound('Movie not found')
 
   const response = await cinemaShowService.create({ ...body, room, movie })
 
@@ -72,8 +83,15 @@ const update = asyncHandler(async ({ params, body }: Request, res: Response, nex
 
     const timeDifferenceMinutes = (hour - cinemaShow.hour) * MINUTES.ONE_HOUR + (minutes - cinemaShow.minutes)
 
-    if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
-      throw boom.conflict('The difference between functions must be at least 3 hours.')
+    if (timeDifferenceMinutes > 0) {
+      if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
+    } else {
+      const absoluteValueForTimeDifferenceMinutes = timeDifferenceMinutes * -1
+      if (absoluteValueForTimeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
     }
   }
 
