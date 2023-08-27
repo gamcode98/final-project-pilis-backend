@@ -21,10 +21,22 @@ movieRouter.get(
 )
 
 movieRouter.get(
+  '/pretty',
+  movieController.findAllPrettyWay
+)
+
+movieRouter.get(
   '/without-cinema-shows',
   passport.authenticate('jwt', { session: false }),
   checkRoles(ROLES.ADMIN),
   movieController.findAll
+)
+
+movieRouter.get(
+  '/pretty/without-cinema-shows',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles(ROLES.ADMIN),
+  movieController.findAllPrettyWay
 )
 
 movieRouter.get(
