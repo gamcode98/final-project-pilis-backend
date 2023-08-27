@@ -1,5 +1,5 @@
 import { LessThanOrEqual, MoreThan } from 'typeorm'
-import { MovieDto } from '../dtos'
+import { MovieDto, UpdateMovieDto } from '../dtos'
 import { Movie } from '../entities'
 import { ROLES } from '../enums'
 
@@ -35,8 +35,22 @@ const findOne = async (id: MovieDto['id']) => {
   return result
 }
 
+const update = async (id: number, updateMovieDto: UpdateMovieDto) => {
+  const result = await Movie.update({ id }, updateMovieDto)
+
+  return result
+}
+
+const remove = async (id: number) => {
+  const result = await Movie.delete({ id })
+
+  return result
+}
+
 export const movieService = {
   create,
   findAll,
-  findOne
+  findOne,
+  update,
+  remove
 }

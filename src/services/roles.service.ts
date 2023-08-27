@@ -12,3 +12,8 @@ export const findOneRole = async (roleName: ROLES) => {
   const result = await Role.findOneBy({ name: roleName })
   return result
 }
+
+export const findAllRole = async () => {
+  const result = await Role.find()
+  return result
+}

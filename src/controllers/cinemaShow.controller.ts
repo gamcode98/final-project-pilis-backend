@@ -16,14 +16,25 @@ const create = asyncHandler(async ({ body }: Request, res: Response, next: NextF
 
     const timeDifferenceMinutes = (hour - cinemaShow.hour) * MINUTES.ONE_HOUR + (minutes - cinemaShow.minutes)
 
-    if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
-      throw boom.conflict('The difference between functions must be at least 3 hours.')
+    if (timeDifferenceMinutes > 0) {
+      if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
+    } else {
+      const absoluteValueForTimeDifferenceMinutes = timeDifferenceMinutes * -1
+      if (absoluteValueForTimeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
     }
   }
 
   const room = await roomService.findOne(roomId)
 
+  if (!room) throw boom.notFound('Room not found')
+
   const movie = await movieService.findOne(movieId)
+
+  if (!movie) throw boom.notFound('Movie not found')
 
   const response = await cinemaShowService.create({ ...body, room, movie })
 
@@ -58,8 +69,69 @@ const findOne = asyncHandler(async ({ params }: Request, res: Response, next: Ne
   })
 })
 
+const update = asyncHandler(async ({ params, body }: Request, res: Response, next: NextFunction) => {
+  const { id } = params
+
+  const { date, hour, minutes, price, roomId, movieId } = body
+
+  const cinemaShow = await cinemaShowService.findOne({ room: { id: +roomId } })
+
+  if (cinemaShow) {
+    if (cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes) {
+      throw boom.conflict('Cinema show already exists')
+    }
+
+    const timeDifferenceMinutes = (hour - cinemaShow.hour) * MINUTES.ONE_HOUR + (minutes - cinemaShow.minutes)
+
+    if (timeDifferenceMinutes > 0) {
+      if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
+    } else {
+      const absoluteValueForTimeDifferenceMinutes = timeDifferenceMinutes * -1
+      if (absoluteValueForTimeDifferenceMinutes < MINUTES.THREE_HOURS) {
+        throw boom.conflict('The difference between functions must be at least 3 hours.')
+      }
+    }
+  }
+
+  const room = await roomService.findOne(roomId)
+
+  if (!room) throw boom.notFound('Room not found')
+
+  const movie = await movieService.findOne(movieId)
+
+  if (!movie) throw boom.notFound('Movie not found')
+
+  const response = await cinemaShowService.update(+id, { date, hour, minutes, price, room, movie })
+
+  res.status(201).send({
+    statusCode: res.statusCode,
+    message: 'Cinema show updated successfully',
+    response
+  })
+})
+
+const remove = asyncHandler(async ({ params }: Request, res: Response, next: NextFunction) => {
+  const { id } = params
+
+  const tickets = await cinemaShowService.findOne({ id: +id })
+
+  if (tickets) throw boom.conflict('Cinema show has tickets')
+
+  const response = await cinemaShowService.remove(+id)
+
+  res.status(200).send({
+    statusCode: res.statusCode,
+    message: 'Cinema show deleted successfully',
+    response
+  })
+})
+
 export const cinemaController = {
   create,
   findAll,
-  findOne
+  findOne,
+  update,
+  remove
 }
