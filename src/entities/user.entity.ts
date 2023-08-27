@@ -4,20 +4,23 @@ import { Role, Ticket } from '.'
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
-    id: number
+  id: number
+
+  @Column('text', { unique: true, nullable: true })
+  username: string
 
   @Column('text', { unique: true })
-    email: string
+  email: string
 
   @Column('text')
-    password: string
+  password: string
 
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP'
   })
-    createdAt: Date
+  createdAt: Date
 
   @UpdateDateColumn({
     name: 'updated_at',
@@ -25,22 +28,22 @@ export class User extends BaseEntity {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP'
   })
-    updatedAt: Date
+  updatedAt: Date
 
   @ManyToOne(() => Role, (rol) => rol.users)
   @JoinColumn({ name: 'role_id' })
-    rol: Role
+  rol: Role
 
   @OneToMany(() => Ticket, ticket => ticket.user)
-    tickets: Ticket[]
+  tickets: Ticket[]
 
   @BeforeInsert()
-  checkFieldsBeforeInsert () {
+  checkFieldsBeforeInsert() {
     this.email = this.email.toLowerCase().trim()
   }
 
   @BeforeUpdate()
-  checkFieldsBeforeUpdate () {
+  checkFieldsBeforeUpdate() {
     this.checkFieldsBeforeInsert()
   }
 }

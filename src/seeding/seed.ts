@@ -21,13 +21,14 @@ const seed = async () => {
   const adminRole = await createRole(ROLES.ADMIN)
 
   const admin = {
+    username: settings.adminUsername ?? 'admin',
     email: settings.adminEmail ?? 'admin@gmail.com',
     password: settings.adminPassword ?? '123okAsd@'
   }
 
   const passwordHash = await encryptPassword(admin.password)
 
-  await createUser({ email: admin.email, password: passwordHash, role: adminRole })
+  await createUser({ username: admin.username, email: admin.email, password: passwordHash, role: adminRole })
 
   for await (const room of initialRooms) {
     await roomService.create(room)
