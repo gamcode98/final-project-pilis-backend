@@ -53,13 +53,14 @@ interface GroupedTicket {
   title: string
   details: Ticket[]
   movieId: number
+  imageUrl: string
 }
 
 export const groupTicketsByMovieTitle = (tickets: Ticket[]): GroupedTicket[] => {
   const groupedTickets: GroupedTicket[] = []
 
   tickets.forEach(ticket => {
-    const { title, id: movieId } = ticket.cinemaShow.movie
+    const { title, id: movieId, image: { url } } = ticket.cinemaShow.movie
 
     const existingGroup = groupedTickets.find(group => group.title === title)
 
@@ -67,6 +68,7 @@ export const groupTicketsByMovieTitle = (tickets: Ticket[]): GroupedTicket[] => 
       groupedTickets.push({
         title,
         details: [ticket],
+        imageUrl: url,
         movieId
       })
     } else {
