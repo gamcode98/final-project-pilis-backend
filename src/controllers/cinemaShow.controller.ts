@@ -115,9 +115,11 @@ const update = asyncHandler(async ({ params, body }: Request, res: Response, nex
 const remove = asyncHandler(async ({ params }: Request, res: Response, next: NextFunction) => {
   const { id } = params
 
-  const tickets = await cinemaShowService.findOne({ id: +id })
+  const cinemaShow = await cinemaShowService.findOne({ id: +id })
 
-  if (tickets) throw boom.conflict('Cinema show has tickets')
+  if (!cinemaShow) throw boom.notFound('Cinema show not found')
+
+  if (cinemaShow.tickets.length > 0) throw boom.conflict('Cinema show has tickets')
 
   const response = await cinemaShowService.remove(+id)
 

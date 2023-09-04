@@ -23,7 +23,7 @@ const create = async (data: MovieDto) => {
 const findAll = async (rol: string) => {
   const result = await Movie.find({
     relations: ['image', 'cinemaShows', 'cinemaShows.room'],
-    where: rol === ROLES.ADMIN ? { cinemaShows: LessThanOrEqual(0) } : { cinemaShows: MoreThan(0) }
+    where: rol === ROLES.ADMIN ? { cinemaShows: LessThanOrEqual(0) } : { cinemaShows: { capacityAvailable: MoreThan(0) } }
   })
 
   return result
