@@ -44,7 +44,7 @@ const updateState = async (userId: number) => {
   return result
 }
 
-const findOne = async (term: { cinemaShow: { id: number }, user: { id: number } } | { id: number }) => {
+const findOne = async (term: { cinemaShow: { id: number }, user: { id: number } } | { id: number } | { code: string }) => {
   const result = await Ticket.findOne({
     where: term,
     relations: ['cinemaShow']

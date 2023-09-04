@@ -13,7 +13,7 @@ const item = Joi.object({
   quantity: quantity.required()
 })
 
-const items = Joi.array().items(item)
+const items = Joi.array().items(item).min(1)
 
 const createPaymentSchema = Joi.object({
   items: items.required()
