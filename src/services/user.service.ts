@@ -1,9 +1,9 @@
 import { UserDto } from '../dtos'
 import { User } from '../entities'
 
-export const createUser = async ({ email, password, role }: UserDto) => {
+export const createUser = async ({ username, email, password, role }: UserDto) => {
   const user = new User()
-
+  user.username = username
   user.email = email
   user.password = password
   user.rol = role
@@ -13,6 +13,11 @@ export const createUser = async ({ email, password, role }: UserDto) => {
 }
 
 export const findOneUserByEmail = async (email: UserDto['email']) => {
-  const result = await User.findOneBy({ email })
+  const result = await User.findOne({ where: { email }, relations: ['rol'] })
+  return result
+}
+
+export const findOneUserById = async (id: UserDto['id']) => {
+  const result = await User.findOne({ where: { id }, relations: ['rol'] })
   return result
 }

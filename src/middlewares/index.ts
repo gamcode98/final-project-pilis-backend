@@ -1,3 +1,5 @@
 export * from './async.handler'
+export * from './auth.handler'
 export * from './error.handler'
+export * from './file.handler'
 export * from './validator.handler'

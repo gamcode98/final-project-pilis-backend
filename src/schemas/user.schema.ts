@@ -1,6 +1,7 @@
 import Joi from 'joi'
 
 const id = Joi.number().integer()
+const username = Joi.string().min(3).max(10)
 const email = Joi.string().email()
 const password = Joi.string()
   .min(8)
@@ -11,6 +12,7 @@ const password = Joi.string()
   )
 
 const signupUserSchema = Joi.object({
+  username: username.required(),
   email: email.required(),
   password: password.required()
 })
