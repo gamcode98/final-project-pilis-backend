@@ -1,8 +1,8 @@
-# Cinema system
+# FlicksSpot
 
 ## Diagrama de entidad relación
 
-![diagrama de entidad relación](./der-cinema-system.png)
+![diagrama de entidad relación](./der-flicksSpot.png)
 
 ## Instrucciones
 
@@ -12,16 +12,16 @@
   npm i 
 ```
 
+- Asignar las variables de entorno en el archivo **.env**
+
 - Iniciar el contenedor de Docker
 
 ```bash
   docker compose up -d
 ```
 
-- Asignar las variables de entorno en el archivo **.env**
-
 - Ejecutar SEED:
-  - Crea los roles y el usuario administrador
+  - Crea los roles, el usuario administrador y las salas.
 
 ```bash
   npm run db:seed

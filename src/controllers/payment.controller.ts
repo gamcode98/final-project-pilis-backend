@@ -65,9 +65,9 @@ const createOrder = asyncHandler(async ({ body, user }: Request, res: Response, 
     items: elements,
     notification_url: `${settings.backendUrl}/api/v1/payments/webhook`,
     back_urls: {
-      success: 'http://localhost:3000/api/v1/payments/success',
-      pending: 'http://localhost:3000/api/v1/payments/pending',
-      failure: 'http://localhost:3000/api/v1/payments/failure'
+      success: `${settings.frontendUrl}/payments/success` || `${settings.backendUrl}/api/v1/payments/success`,
+      pending: `${settings.frontendUrl}/payments/pending` || `${settings.backendUrl}/api/v1/payments/pending`,
+      failure: `${settings.frontendUrl}/payments/failure` || `${settings.backendUrl}/api/v1/payments/failure`
     },
     date_of_expiration: expirationDate
   })
