@@ -7,10 +7,7 @@ import { encryptPassword } from '../utils'
 
 const initialRooms: RoomDto[] = [
   { name: 'Estelar', capacity: 40 },
-  { name: 'Solaz', capacity: 10 },
-  { name: 'Venus', capacity: 20 },
-  { name: 'Mercurio', capacity: 30 },
-  { name: 'Luminar', capacity: 24 }
+  { name: 'Solaz', capacity: 10 }
 ]
 
 const seed = async () => {
