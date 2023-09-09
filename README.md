@@ -32,3 +32,7 @@
 ```bash
   npm run dev
 ```
+
+Nota:
+
+Para poder utilizar la integración con Mercado Pago es necesario que el servidor local tenga una url segura (https), para ello se recomienda colocar en la variable de entorno **BACKEND_URL=** la url que nos proporciona el servicio de [ngrok](https://ngrok.com/)
