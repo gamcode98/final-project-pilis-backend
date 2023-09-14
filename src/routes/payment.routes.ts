@@ -25,8 +25,8 @@ paymentRouter.post(
 
 paymentRouter.post('/webhook', paymentController.receiveWebhook)
 
-paymentRouter.get('/success', (req, res) => res.send('Success'))
+paymentRouter.get('/success', paymentController.renderSuccess)
 
-paymentRouter.get('/failure', (req, res) => res.send('Failure'))
+paymentRouter.get('/failure', paymentController.renderFailure)
 
-paymentRouter.get('/pending', (req, res) => res.send('Pending'))
+paymentRouter.get('/pending', paymentController.renderPending)
