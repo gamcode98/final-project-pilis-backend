@@ -65,9 +65,9 @@ const createOrder = asyncHandler(async ({ body, user }: Request, res: Response, 
     items: elements,
     notification_url: `${settings.backendUrl}/api/v1/payments/webhook`,
     back_urls: {
-      success: `${settings.frontendUrl}/payments/success` || `${settings.backendUrl}/api/v1/payments/success`,
-      pending: `${settings.frontendUrl}/payments/pending` || `${settings.backendUrl}/api/v1/payments/pending`,
-      failure: `${settings.frontendUrl}/payments/failure` || `${settings.backendUrl}/api/v1/payments/failure`
+      success: `${settings.backendUrl}/api/v1/payments/success`,
+      pending: `${settings.backendUrl}/api/v1/payments/pending`,
+      failure: `${settings.backendUrl}/api/v1/payments/failure`
     },
     date_of_expiration: expirationDate
   })
@@ -261,8 +261,23 @@ const createWithoutMercadoPago = asyncHandler(async (req: Request, res: Response
   })
 })
 
+const renderSuccess = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  res.render('success', { frontendUrl: settings.frontendUrl, mobileUrl: settings.mobileUrl })
+})
+
+const renderFailure = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  res.render('failure', { frontendUrl: settings.frontendUrl, mobileUrl: settings.mobileUrl })
+})
+
+const renderPending = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  res.render('pending', { frontendUrl: settings.frontendUrl, mobileUrl: settings.mobileUrl })
+})
+
 export const paymentController = {
   createOrder,
   createWithoutMercadoPago,
-  receiveWebhook
+  receiveWebhook,
+  renderSuccess,
+  renderFailure,
+  renderPending
 }

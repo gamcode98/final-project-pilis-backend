@@ -1,0 +1,61 @@
+:root {
+  --primary: #F9B208;
+  --text: #181a1f
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: .5rem;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.paragraph {
+  text-align: center;
+}
+
+.img {
+  max-width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  text-align: center;
+  display: block;
+  background-color: var(--primary);
+  padding: 1rem .5rem;
+  border-radius: .5rem;
+}
+
+@media screen and (min-width: 768px){
+  .card {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .card {
+    width: 100%;
+  }
+}
