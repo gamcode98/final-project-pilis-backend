@@ -4,11 +4,12 @@ import { Movie } from '../entities'
 import { ROLES } from '../enums'
 
 const create = async (data: MovieDto) => {
-  const { title, gender, description, director, trailerUrl, image } = data
+  const { title, duration, gender, description, director, trailerUrl, image } = data
 
   const movie = new Movie()
 
   movie.title = title
+  movie.duration = duration
   movie.description = description
   movie.director = director
   movie.gender = gender

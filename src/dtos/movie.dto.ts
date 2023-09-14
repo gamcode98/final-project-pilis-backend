@@ -4,6 +4,7 @@ import { BaseDto } from './base.dto'
 
 export interface MovieDto extends BaseDto {
   title: string
+  duration: string
   gender: GENDERS
   director: string
   description: string

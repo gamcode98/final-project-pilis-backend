@@ -95,13 +95,21 @@ const findOne = asyncHandler(async ({ params }: Request, res: Response, next: Ne
 const update = asyncHandler(async ({ params, body }: Request, res: Response, next: NextFunction) => {
   const { id } = params
 
-  const { title, gender, director, description, trailerUrl, imageId } = body
+  const { title, duration, gender, director, description, trailerUrl, imageId } = body
 
   const image = await imageService.findOne(imageId)
 
   if (!image) throw boom.notFound('Image not found')
 
-  const response = await movieService.update(+id, { title, gender, director, description, trailerUrl, image })
+  const response = await movieService.update(+id, {
+    title,
+    duration,
+    gender,
+    director,
+    description,
+    trailerUrl,
+    image
+  })
 
   if (response.affected === 0) throw boom.badData('update failed')
 

@@ -21,6 +21,9 @@ export class Movie extends BaseEntity {
   @Column('text', { name: 'trailer_url' })
     trailerUrl: string
 
+  @Column('text')
+    duration: string
+
   @OneToOne(() => Image)
   @JoinColumn({ name: 'image_id' })
     image: Image
