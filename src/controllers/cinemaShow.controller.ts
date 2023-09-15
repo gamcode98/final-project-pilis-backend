@@ -2,7 +2,6 @@ import boom from '@hapi/boom'
 import { NextFunction, Request, Response } from 'express'
 import { asyncHandler } from '../middlewares'
 import { cinemaShowService, movieService, roomService } from '../services'
-import { MINUTES } from '../enums'
 
 const create = asyncHandler(async ({ body }: Request, res: Response, next: NextFunction) => {
   const { roomId, movieId, date, hour, minutes } = body
@@ -81,22 +80,29 @@ const update = asyncHandler(async ({ params, body }: Request, res: Response, nex
 
   const { date, hour, minutes, price, roomId, movieId } = body
 
-  const cinemaShow = await cinemaShowService.findOne({ room: { id: +roomId } })
+  const cinemaShows = await cinemaShowService.findByRoom(roomId)
 
-  if (cinemaShow) {
-    if (cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes) {
-      throw boom.conflict('Cinema show already exists')
-    }
+  const foundCinemaShow = cinemaShows.find(cinemaShow => {
+    return cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes
+  })
 
-    const timeDifferenceMinutes = (hour - cinemaShow.hour) * MINUTES.ONE_HOUR + (minutes - cinemaShow.minutes)
+  if (foundCinemaShow) throw boom.conflict('Cinema show already exists')
 
-    if (timeDifferenceMinutes > 0) {
-      if (timeDifferenceMinutes < MINUTES.THREE_HOURS) {
+  const cinemaShowsByDate = cinemaShows.filter(cinemaShow => {
+    return cinemaShow.date === date
+  })
+
+  for (const cinemaShow of cinemaShowsByDate) {
+    const timeFromFoundCinemaShow = cinemaShow.hour * 60 + cinemaShow.minutes
+    const timeFromNewCinemaShow = Number(hour) * 60 + Number(minutes)
+    const differenceInMinutes = timeFromNewCinemaShow - timeFromFoundCinemaShow
+
+    if (differenceInMinutes < 0) {
+      if ((differenceInMinutes * -1) < 180) {
         throw boom.conflict('The difference between functions must be at least 3 hours.')
       }
     } else {
-      const absoluteValueForTimeDifferenceMinutes = timeDifferenceMinutes * -1
-      if (absoluteValueForTimeDifferenceMinutes < MINUTES.THREE_HOURS) {
+      if (differenceInMinutes < 180) {
         throw boom.conflict('The difference between functions must be at least 3 hours.')
       }
     }
