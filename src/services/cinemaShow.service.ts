@@ -26,6 +26,11 @@ const findOne = async (term: { id?: number } | { room: { id: number } }) => {
   return result
 }
 
+const findByRoom = async (roomId: number) => {
+  const result = await CinemaShow.find({ where: { room: { id: roomId } }, relations: ['movie', 'room', 'tickets'] })
+  return result
+}
+
 const update = async (id: number, updateCinemaShowDto: UpdateCinemaShowDto) => {
   const result = await CinemaShow.update(id, updateCinemaShowDto)
   return result
@@ -40,6 +45,7 @@ export const cinemaShowService = {
   create,
   findAll,
   findOne,
+  findByRoom,
   update,
   remove
 }
