@@ -83,13 +83,13 @@ const update = asyncHandler(async ({ params, body }: Request, res: Response, nex
   const cinemaShows = await cinemaShowService.findByRoom(roomId)
 
   const foundCinemaShow = cinemaShows.find(cinemaShow => {
-    return cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes
+    return cinemaShow.date === date && cinemaShow.hour === hour && cinemaShow.minutes === minutes && cinemaShow.id !== +id
   })
 
   if (foundCinemaShow) throw boom.conflict('Cinema show already exists')
 
   const cinemaShowsByDate = cinemaShows.filter(cinemaShow => {
-    return cinemaShow.date === date
+    return cinemaShow.date === date && cinemaShow.id !== +id
   })
 
   for (const cinemaShow of cinemaShowsByDate) {
