@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"dudu\",\n    \"email\": \"dudu@gmail.com\",\n    \"password\": \"123okAsd@\"\n}",
+							"raw": "{\n    \"username\": \"calitos\",\n    \"email\": \"carlitos@gmail.com\",\n    \"password\": \"123okAsd@\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,7 +109,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"dudu@gmail.com\",\n    \"password\": \"123okAsd@\"\n}\n\n\n\n",
+							"raw": "{\n    \"email\": \"carlitos@gmail.com\",\n    \"password\": \"123okAsd@\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -144,7 +144,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbCI6ImFkbWluIiwiaWF0IjoxNjkyNzQ3NzE2LCJleHAiOjE2OTI3NTQ5MTZ9.pfz3kBJKrpsRO8MTIfyGOwrfcjIpBMzd6gXjWdllEHo",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -157,7 +157,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/home/gabriel/Descargas/img/barbie.jpg"
+									"src": "/home/gabriel/Descargas/the-nun2.jpg"
 								}
 							]
 						},
@@ -228,7 +228,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbCI6ImFkbWluIiwiaWF0IjoxNjkyNzQ3NzE2LCJleHAiOjE2OTI3NTQ5MTZ9.pfz3kBJKrpsRO8MTIfyGOwrfcjIpBMzd6gXjWdllEHo",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -237,7 +237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Barbie\",\n    \"gender\": \"comedy\",\n    \"director\": \"James Gunn\",\n    \"description\": \"Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world.\",\n    \"trailerUrl\": \"https://youtu.be/zh4KhVSMwtQ\",\n    \"imageId\": 3\n}",
+							"raw": "{\n    \"title\": \"the nun 2\",\n    \"duration\": \"02:00\",\n    \"gender\": \"action\",\n    \"director\": \"James Gunn\",\n    \"description\": \"Peli de miedo\",\n    \"trailerUrl\": \"https://www.youtube.com/watch?v=SvJwEiy2Wok\",\n    \"imageId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,7 +275,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Barbie\",\n    \"gender\": \"comedy\",\n    \"director\": \"James Gunn\",\n    \"description\": \"Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world.\",\n    \"trailerUrl\": \"https://youtu.be/zh4KhVSMwtQ\",\n    \"imageId\": 3\n}",
+							"raw": "{\n    \"title\": \"Barbie\",\n    \"duaration\": \"01:00\",\n    \"gender\": \"comedy\",\n    \"director\": \"James Gunn\",\n    \"description\": \"Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world.\",\n    \"trailerUrl\": \"https://youtu.be/zh4KhVSMwtQ\",\n    \"imageId\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -735,7 +735,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"date\": \"2023-08-22\",\n    \"hour\": 12,\n    \"minutes\": 30,\n    \"price\": 10,\n    \"roomId\": 1,\n    \"movieId\": 1\n}",
+							"raw": "{\n    \"date\": \"2023-10-10\",\n    \"hour\": 15,\n    \"minutes\": 0,\n    \"price\": 10,\n    \"roomId\": 1,\n    \"movieId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -773,7 +773,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"date\": \"2023-10-21\",\n    \"hour\": 19,\n    \"minutes\": 0,\n    \"price\": 10,\n    \"roomId\": 1,\n    \"movieId\": 1\n}",
+							"raw": "{\n    \"date\": \"2023-10-10\",\n    \"hour\": 19,\n    \"minutes\": 0,\n    \"price\": 1200,\n    \"roomId\": 1,\n    \"movieId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -781,7 +781,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/v1/cinema-shows/9",
+							"raw": "{{url}}/api/v1/cinema-shows/2",
 							"host": [
 								"{{url}}"
 							],
@@ -789,7 +789,7 @@
 								"api",
 								"v1",
 								"cinema-shows",
-								"9"
+								"2"
 							]
 						}
 					},
@@ -817,7 +817,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"items\": [\n        {   \"cinemaShowId\": 1,\n            \"title\": \"Megalodon 2\",\n            \"unitPrice\": 10,\n            \"quantity\": 3\n        },\n        {   \"cinemaShowId\": 2,\n            \"title\": \"Oppenheimer\",\n            \"unitPrice\": 20,\n            \"quantity\": 3\n        }\n    ]\n}",
+							"raw": "{\n    \"items\": [\n        {   \"cinemaShowId\": 13,\n            \"title\": \"Barbie\",\n            \"unitPrice\": 10,\n            \"quantity\": 1\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"

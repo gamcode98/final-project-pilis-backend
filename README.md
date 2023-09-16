@@ -1,5 +1,18 @@
 # FlicksSpot
 
+## Integrantes
+
+| Nombres    | Apellidos    |
+| ------------ | ------------ |
+| Fabián Abel    | Sajama   |
+| Gabriel Alejandro    | Mamani    |
+| Micaela    | Zerpa    |
+| Sebastian Rafael    | Rojas    |
+
+## Alcance del sistema
+
+[Alcance del sistema - draw.io](https://app.diagrams.net/#G1sdrcfy_VNAdn12RiUqKAnAHyBzrcOC2o)
+
 ## Diagrama de entidad relación
 
 ![diagrama de entidad relación](./der-flicksSpot.png)
