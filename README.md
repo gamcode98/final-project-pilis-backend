@@ -48,4 +48,6 @@
 
 Nota:
 
-Para poder utilizar la integración con Mercado Pago es necesario que el servidor local tenga una url segura (https), para ello se recomienda colocar en la variable de entorno **BACKEND_URL=** la url que nos proporciona el servicio de [ngrok](https://ngrok.com/)
+1 - Se proporciona un script sql con datos para poder importar una base de datos de prueba
+
+2 - Para poder utilizar la integración con Mercado Pago es necesario que el servidor local tenga una url segura (https), para ello se recomienda colocar en la variable de entorno **BACKEND_URL** y **BACKEND_BACK_URL** la url que nos proporciona el servicio de [ngrok](https://ngrok.com/), ademas para el uso de la aplicación mobile es necesario agregar a la variable de entorno **MOBILE_URL** la url que proporciona expo al iniciar la aplicación (ej: exp://192.1.68.1:8000) y en **FRONTEND_URL** utilizar la url de la aplicación web (ej: http://localhost:5173)
