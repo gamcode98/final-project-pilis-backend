@@ -2,7 +2,7 @@
 
 ## Video presentación
 
-<iframe src="https://drive.google.com/file/d/1RExxKKuQv5jkFTin27g0z2qe50g27klk/preview" width="640" height="480"></iframe>
+[Enlace al video en Google Drive](https://drive.google.com/file/d/1RExxKKuQv5jkFTin27g0z2qe50g27klk/view)
 
 ## Integrantes
 
