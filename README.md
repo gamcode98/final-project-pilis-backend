@@ -2,10 +2,7 @@
 
 ## Video presentación
 
-<video width="320" height="240" controls>
-  <source src="https://drive.google.com/file/d/1RExxKKuQv5jkFTin27g0z2qe50g27klk/view" type="video/mp4">
-  Tu navegador no soporta el elemento de video.
-</video>
+https://drive.google.com/file/d/1RExxKKuQv5jkFTin27g0z2qe50g27klk/view
 
 ## Integrantes
 
